@@ -168,37 +168,32 @@ export default function App() {
       {/* ========================================================================= */}
       {/* 1. STICKY HEADER                                                          */}
       {/* ========================================================================= */}
+      {/* 1. TOP BAR (Strict 3-Zone Contract: Brand Wordmark — Links — Primary Action) */}
+      {/* ========================================================================= */}
       <header
         className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
           isScrolled
-            ? "bg-espresso/95 backdrop-blur-md shadow-lg py-3 text-cream border-b border-mango/20"
-            : "bg-gradient-to-b from-espresso/90 to-transparent py-5 text-white"
+            ? "bg-espresso/95 backdrop-blur-md shadow-sm py-3 text-cream border-b border-white/10"
+            : "bg-gradient-to-b from-espresso/90 via-espresso/50 to-transparent py-4 sm:py-5 text-white"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
-          {/* Logo / Wordmark */}
-          <div 
-            onClick={() => scrollTo("home")}
-            className="flex items-center space-x-2.5 cursor-pointer group"
+          {/* Zone 1: Single text element wordmark */}
+          <a 
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollTo("home");
+            }}
+            className="text-xl sm:text-2xl font-serif font-black tracking-tight text-white hover:text-mango transition-colors whitespace-nowrap"
           >
-            <div className="w-10 h-10 rounded-xl bg-mango flex items-center justify-center text-espresso font-black shadow-md group-hover:scale-105 transition-transform">
-              <Utensils className="w-5 h-5 text-espresso" />
-            </div>
-            <div>
-              <span className="text-xl sm:text-2xl font-serif font-black tracking-tight text-white block leading-none">
-                Am Kitchen
-              </span>
-              <span className="text-[10px] uppercase font-bold tracking-widest text-mango block mt-1">
-                Bhubaneswar
-              </span>
-            </div>
-          </div>
+            Am Kitchen
+          </a>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-1">
+          {/* Zone 2: 4-6 clean text navigation links */}
+          <nav className="hidden lg:flex items-center space-x-7 text-sm font-medium text-white/80">
             {[
-              { id: "home", label: "Home" },
               { id: "about", label: "About" },
               { id: "menu", label: "Menu" },
               { id: "why-us", label: "Why Us" },
@@ -209,17 +204,17 @@ export default function App() {
               <button
                 key={link.id}
                 onClick={() => scrollTo(link.id)}
-                className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer ${
+                className={`relative py-1 transition-colors whitespace-nowrap cursor-pointer ${
                   activeSection === link.id
-                    ? "text-mango font-bold bg-white/10"
-                    : "text-white/85 hover:text-white hover:bg-white/5"
+                    ? "text-mango font-semibold"
+                    : "hover:text-white"
                 }`}
               >
-                {link.label}
+                <span>{link.label}</span>
                 {activeSection === link.id && (
                   <motion.span
                     layoutId="activeTabUnderline"
-                    className="absolute bottom-1 left-4 right-4 h-0.5 bg-mango rounded-full"
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-mango rounded-full"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -227,24 +222,30 @@ export default function App() {
             ))}
           </nav>
 
-          {/* Header Action CTA: Call Now */}
-          <div className="hidden sm:flex items-center space-x-3">
+          {/* Zone 3: 1-2 primary actions */}
+          <div className="hidden sm:flex items-center space-x-4">
             <a
               href={`tel:${businessDetails.phone}`}
-              className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-full bg-mango hover:bg-mango-light text-espresso font-bold text-sm shadow-md transition-all hover:scale-105"
+              className="text-xs font-semibold text-white/80 hover:text-white transition-colors flex items-center space-x-1.5 whitespace-nowrap"
             >
-              <Phone className="w-4 h-4 text-espresso fill-espresso" />
-              <span>Call Now</span>
+              <Phone className="w-3.5 h-3.5 text-mango" />
+              <span>{businessDetails.phone}</span>
             </a>
+            <button
+              onClick={() => setIsBookingModalOpen(true)}
+              className="px-4 py-2 text-xs font-bold text-espresso bg-mango hover:bg-mango-light rounded-lg transition-colors whitespace-nowrap shadow-sm cursor-pointer"
+            >
+              Book Table
+            </button>
           </div>
 
           {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2.5 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-colors focus:outline-none"
+            className="lg:hidden p-2 rounded-lg bg-white/10 text-white hover:bg-white/15 transition-colors focus:outline-none"
             aria-label="Toggle Navigation Menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <MenuIcon className="w-5 h-5" />}
           </button>
         </div>
       </header>
@@ -253,61 +254,51 @@ export default function App() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-[68px] left-0 w-full bg-espresso text-cream z-30 shadow-2xl border-b border-mango/20 lg:hidden overflow-y-auto max-h-[calc(100vh-68px)]"
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.18 }}
+            className="fixed top-[60px] left-0 w-full bg-espresso text-cream z-30 shadow-2xl border-b border-white/10 lg:hidden overflow-y-auto max-h-[calc(100vh-60px)]"
           >
             <div className="px-5 py-6 space-y-2">
               {[
                 { id: "home", label: "Home" },
-                { id: "about", label: "About Am Kitchen" },
-                { id: "menu", label: "Explore Menu" },
-                { id: "why-us", label: "Why Choose Us" },
-                { id: "gallery", label: "Photo Gallery" },
-                { id: "reviews", label: "Customer Reviews" },
-                { id: "contact", label: "Location & Contact" }
+                { id: "about", label: "About" },
+                { id: "menu", label: "Menu" },
+                { id: "why-us", label: "Why Us" },
+                { id: "gallery", label: "Gallery" },
+                { id: "reviews", label: "Reviews" },
+                { id: "contact", label: "Contact & Directions" }
               ].map((link) => (
                 <button
                   key={link.id}
                   onClick={() => scrollTo(link.id)}
-                  className={`block w-full text-left px-4 py-3 rounded-xl text-base font-medium transition-colors ${
+                  className={`block w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                     activeSection === link.id
-                      ? "bg-mango text-espresso font-bold"
-                      : "text-cream/90 hover:bg-white/5"
+                      ? "bg-white/10 text-mango font-bold"
+                      : "text-cream/80 hover:bg-white/5"
                   }`}
                 >
                   {link.label}
                 </button>
               ))}
 
-              <div className="pt-4 border-t border-white/10 space-y-3">
+              <div className="pt-4 border-t border-white/10 space-y-2.5">
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     setIsBookingModalOpen(true);
                   }}
-                  className="flex items-center justify-center space-x-2 w-full py-3.5 px-4 rounded-xl bg-mango text-espresso font-bold text-base shadow-md active:scale-95 transition-transform cursor-pointer"
+                  className="w-full py-3 px-4 rounded-lg bg-mango text-espresso font-bold text-sm shadow-sm active:scale-98 transition-transform cursor-pointer"
                 >
-                  <CalendarCheck className="w-5 h-5 text-espresso" />
-                  <span>Book Table</span>
+                  Book Table
                 </button>
                 <a
                   href={`tel:${businessDetails.phone}`}
-                  className="flex items-center justify-center space-x-2 w-full py-3 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-sm shadow-sm active:scale-95 transition-transform"
+                  className="flex items-center justify-center space-x-2 w-full py-2.5 px-4 rounded-lg bg-white/10 text-white font-medium text-xs shadow-sm"
                 >
-                  <Phone className="w-4 h-4 fill-mango text-mango" />
+                  <Phone className="w-3.5 h-3.5 text-mango" />
                   <span>Call {businessDetails.phone}</span>
-                </a>
-                <a
-                  href={businessDetails.googleMapsLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-center space-x-2 w-full py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-white/90 font-medium text-xs transition-colors"
-                >
-                  <Navigation className="w-3.5 h-3.5 text-mango" />
-                  <span>Get Directions on Google Maps</span>
                 </a>
               </div>
             </div>
@@ -322,85 +313,78 @@ export default function App() {
         {/* ========================================================================= */}
         <section
           id="home"
-          className="relative min-h-[620px] h-[92vh] flex items-center justify-center overflow-hidden bg-espresso text-white"
+          className="relative min-h-[640px] md:h-[90vh] flex items-center justify-center overflow-hidden bg-espresso text-white"
         >
-          {/* Full-width storefront background image with parallax & dark overlay */}
+          {/* Full-width storefront background image with subtle parallax & balanced scrim */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <motion.img
-              style={{ y: scrollY * 0.2 }}
+              style={{ y: scrollY * 0.15 }}
               src={heroFacadeImg}
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).src = "/am_kitchen_facade.jpg";
               }}
               alt="Am Kitchen Restaurant Storefront in Old Town Bhubaneswar"
               loading="eager"
-              className="w-full h-full object-cover object-center scale-105 pointer-events-none transition-transform duration-700"
+              className="w-full h-full object-cover object-center scale-105 pointer-events-none transition-transform duration-700 select-none"
             />
-            {/* Balanced gradient overlay keeping facade visible and clear while ensuring text contrast */}
-            <div className="absolute inset-0 bg-gradient-to-t from-espresso via-espresso/50 to-espresso/35 pointer-events-none" />
+            {/* Measured scrim ensuring WCAG AA contrast while showcasing authentic storefront */}
+            <div className="absolute inset-0 bg-gradient-to-t from-espresso via-espresso/60 to-espresso/40 pointer-events-none" />
           </div>
 
-          <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-16">
+          <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20 pb-16">
             <motion.div
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.6 }}
               className="space-y-6"
             >
-              {/* Google Rating Badge */}
-              <a
-                href={businessDetails.googleMapsLink}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md transition-all duration-300 hover:scale-105 text-xs sm:text-sm font-medium text-cream shadow-md"
-              >
+              {/* Unboxed Social Proof (Zero-Pill Discipline) */}
+              <div className="inline-flex items-center justify-center gap-2 text-xs sm:text-sm font-medium text-cream/90">
                 <span className="flex items-center text-mango font-bold space-x-1">
                   <span>{businessDetails.rating}</span>
-                  <Star className="w-4 h-4 fill-mango text-mango" />
+                  <Star className="w-3.5 h-3.5 fill-mango text-mango inline" />
                 </span>
-                <span className="text-white/60">·</span>
-                <span>rated on Google</span>
-                <span className="text-white/60">·</span>
-                <span className="text-mango-light font-medium">{businessDetails.reviewsCount} reviews</span>
-              </a>
+                <span aria-hidden="true" className="text-white/40">·</span>
+                <span>{businessDetails.reviewsCount} Google Reviews</span>
+                <span aria-hidden="true" className="text-white/40">·</span>
+                <span>Old Town, Bhubaneswar</span>
+              </div>
 
-              {/* Headline */}
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-black tracking-tight text-white leading-tight">
-                Fresh. Flavorful. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-mango via-mango-light to-yellow-200">
-                  Made with Love.
+              {/* Display Headline */}
+              <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-bold tracking-tight text-white leading-[1.08] [text-wrap:balance]">
+                Authentic Flavors, <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-mango via-mango-light to-amber-200">
+                  Crafted with Tradition.
                 </span>
               </h1>
 
               {/* Sub-headline */}
-              <p className="text-base sm:text-xl text-cream/90 max-w-2xl mx-auto leading-relaxed font-normal">
-                {businessDetails.subHeadline} Serving authentic, comforting meals prepared fresh every day for our neighborhood.
+              <p className="text-base sm:text-lg text-cream/80 max-w-2xl mx-auto leading-relaxed font-normal [text-wrap:balance]">
+                Specializing in smoking clay-oven tandoori kebabs, slow-simmered rich curries, and comforting Chinese favorites along Municipal Hospital Road.
               </p>
 
-              {/* Action Buttons */}
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+              {/* Action Buttons (2:1 spatial ratio) */}
+              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3.5">
                 <button
                   onClick={() => setIsBookingModalOpen(true)}
-                  className="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-8 py-4 rounded-full bg-mango hover:bg-mango-light text-espresso font-bold text-base sm:text-lg shadow-xl hover:shadow-mango/30 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-mango hover:bg-mango-light text-espresso font-semibold text-sm sm:text-base shadow-lg hover:shadow-mango/20 transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer inline-flex items-center justify-center space-x-2"
                 >
-                  <CalendarCheck className="w-5 h-5 text-espresso" />
-                  <span>Book Table</span>
+                  <CalendarCheck className="w-4 h-4 text-espresso" />
+                  <span>Reserve Table</span>
                 </button>
-                <a
-                  href={businessDetails.googleMapsLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/25 backdrop-blur-sm font-semibold text-base sm:text-lg transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                <button
+                  onClick={() => scrollTo("menu")}
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-sm font-semibold text-sm sm:text-base transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer inline-flex items-center justify-center space-x-2"
                 >
-                  <Navigation className="w-5 h-5 text-mango" />
-                  <span>Get Directions</span>
-                </a>
+                  <span>Explore Menu</span>
+                  <ArrowRight className="w-4 h-4 text-mango" />
+                </button>
               </div>
             </motion.div>
           </div>
 
           {/* Bottom fade into the off-white background */}
-          <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-cream to-transparent pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-cream to-transparent pointer-events-none" />
         </section>
 
         {/* ========================================================================= */}
@@ -414,7 +398,7 @@ export default function App() {
               <div className="lg:col-span-7 space-y-6">
                 <div className="space-y-2">
                   <span className="text-xs font-bold uppercase tracking-widest text-mango-dark inline-flex items-center space-x-1.5">
-                    <span className="w-2 h-2 rounded-full bg-mango inline-block" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-mango-dark inline-block" />
                     <span>Our Story</span>
                   </span>
                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-black text-espresso tracking-tight leading-tight">
@@ -430,41 +414,41 @@ export default function App() {
                   Whether you are dropping by for a quick lunch, picking up a family dinner, or dining in with close friends, our kitchen focuses on clean preparation, carefully balanced spices, and attentive, friendly service every single day.
                 </p>
 
-                {/* 3 Highlight Icons as requested */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
-                  <div className="bg-cream-soft/80 p-5 rounded-2xl border border-mango/20 space-y-2">
-                    <div className="w-12 h-12 rounded-xl bg-leaf/10 text-leaf flex items-center justify-center mb-1">
-                      <Leaf className="w-6 h-6" />
+                {/* 3 Highlight Cards (Professional Elevation) */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                  <div className="bg-white p-5 rounded-xl border border-stone-200/80 shadow-xs space-y-2">
+                    <div className="w-10 h-10 rounded-lg bg-stone-100 text-leaf flex items-center justify-center mb-1">
+                      <Leaf className="w-5 h-5" />
                     </div>
-                    <h3 className="font-serif font-bold text-lg text-espresso">
+                    <h3 className="font-serif font-bold text-base text-espresso">
                       Fresh Ingredients
                     </h3>
                     <p className="text-xs text-espresso/70 leading-relaxed">
-                      Handpicked daily produce and quality spices with zero shortcuts.
+                      Daily farm produce and whole spices ground in-house.
                     </p>
                   </div>
 
-                  <div className="bg-cream-soft/80 p-5 rounded-2xl border border-mango/20 space-y-2">
-                    <div className="w-12 h-12 rounded-xl bg-mango/15 text-mango-dark flex items-center justify-center mb-1">
-                      <Utensils className="w-6 h-6" />
+                  <div className="bg-white p-5 rounded-xl border border-stone-200/80 shadow-xs space-y-2">
+                    <div className="w-10 h-10 rounded-lg bg-stone-100 text-espresso flex items-center justify-center mb-1">
+                      <Utensils className="w-5 h-5 text-espresso" />
                     </div>
-                    <h3 className="font-serif font-bold text-lg text-espresso">
-                      Great Taste
+                    <h3 className="font-serif font-bold text-base text-espresso">
+                      Clay Tandoor
                     </h3>
                     <p className="text-xs text-espresso/70 leading-relaxed">
-                      Homely, balanced flavors that keep you coming back for more.
+                      Charcoal-fired ovens for authentic kebabs and naans.
                     </p>
                   </div>
 
-                  <div className="bg-cream-soft/80 p-5 rounded-2xl border border-mango/20 space-y-2">
-                    <div className="w-12 h-12 rounded-xl bg-mango/15 text-mango-dark flex items-center justify-center mb-1">
-                      <Heart className="w-6 h-6" />
+                  <div className="bg-white p-5 rounded-xl border border-stone-200/80 shadow-xs space-y-2">
+                    <div className="w-10 h-10 rounded-lg bg-stone-100 text-amber-600 flex items-center justify-center mb-1">
+                      <Heart className="w-5 h-5 text-amber-600" />
                     </div>
-                    <h3 className="font-serif font-bold text-lg text-espresso">
+                    <h3 className="font-serif font-bold text-base text-espresso">
                       Loved by Locals
                     </h3>
                     <p className="text-xs text-espresso/70 leading-relaxed">
-                      A trusted neighborhood dining spot with genuine Odia warmth.
+                      A trusted neighborhood spot with genuine Odia warmth.
                     </p>
                   </div>
                 </div>
@@ -472,7 +456,7 @@ export default function App() {
                 <div className="pt-2">
                   <button
                     onClick={() => scrollTo("menu")}
-                    className="inline-flex items-center space-x-2 text-sm font-bold text-espresso hover:text-mango-dark transition-colors group cursor-pointer"
+                    className="inline-flex items-center space-x-2 text-sm font-semibold text-espresso hover:text-mango-dark transition-colors group cursor-pointer"
                   >
                     <span>View our menu offerings</span>
                     <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform text-mango" />
@@ -480,17 +464,16 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Right Column: Visual Image with Warm Border */}
-              <div className="lg:col-span-5 relative group">
-                <div className="absolute inset-0 bg-mango rounded-3xl rotate-2 group-hover:rotate-1 transition-transform duration-300 pointer-events-none opacity-40" />
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-espresso">
+              {/* Right Column: Visual Image with Clean Architectural Frame */}
+              <div className="lg:col-span-5 relative">
+                <div className="relative rounded-2xl overflow-hidden shadow-xl border border-stone-200/80 bg-espresso">
                   <img
                     src={nightEntranceImg}
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src = "/am_kitchen_night.jpg";
                     }}
                     alt="Am Kitchen Restaurant illuminated night entrance and welcoming dining hall in Old Town Bhubaneswar"
-                    className="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-[400px] object-cover transition-transform duration-700 hover:scale-105 select-none"
                   />
                   <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-espresso via-espresso/70 to-transparent text-white">
                     <p className="text-sm font-bold font-serif">Welcoming Evening Ambience</p>
@@ -504,14 +487,14 @@ export default function App() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 4. MENU SECTION (Tabbed with realistic sample items)                      */}
+        {/* 4. MENU SECTION (Segmented Control & Clean Cards)                        */}
         {/* ========================================================================= */}
-        <section id="menu" className="py-20 sm:py-28 bg-cream-soft/50 relative border-y border-mango/15">
+        <section id="menu" className="py-20 sm:py-28 bg-cream-soft/40 relative border-y border-stone-200/70">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div className="text-center space-y-3 mb-12">
               <span className="text-xs font-bold uppercase tracking-widest text-mango-dark inline-flex items-center space-x-1.5">
-                <span className="w-2 h-2 rounded-full bg-mango inline-block" />
+                <span className="w-1.5 h-1.5 rounded-full bg-mango-dark inline-block" />
                 <span>Our Offerings</span>
               </span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-black text-espresso tracking-tight">
@@ -522,17 +505,17 @@ export default function App() {
               </p>
             </div>
 
-            {/* Menu Tabs */}
+            {/* Menu Tabs: Segmented Control */}
             <div className="flex justify-center mb-10 overflow-x-auto pb-2 hide-scrollbar">
-              <div className="bg-white p-1.5 rounded-2xl shadow-sm border border-mango/20 flex space-x-1">
+              <div className="bg-stone-100 p-1 rounded-xl border border-stone-200 flex space-x-1">
                 {menuCategories.map((category) => (
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className={`px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold tracking-wide transition-all duration-200 shrink-0 cursor-pointer flex items-center space-x-1.5 ${
+                    className={`px-4 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-semibold tracking-wide transition-all duration-150 shrink-0 cursor-pointer flex items-center space-x-1.5 whitespace-nowrap ${
                       selectedCategory === category.id
-                        ? "bg-mango text-espresso font-bold shadow-md"
-                        : "text-espresso/75 hover:text-espresso hover:bg-cream-soft"
+                        ? "bg-white text-espresso shadow-xs font-bold"
+                        : "text-espresso/70 hover:text-espresso"
                     }`}
                   >
                     <span>{category.icon}</span>
@@ -545,7 +528,7 @@ export default function App() {
             {/* Menu Items Grid */}
             <motion.div
               layout
-              className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto"
+              className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto"
             >
               <AnimatePresence mode="popLayout">
                 {sampleMenuItems
@@ -553,16 +536,16 @@ export default function App() {
                   .map((item: MenuItem) => (
                     <motion.div
                       layout
-                      initial={{ opacity: 0, scale: 0.95 }}
+                      initial={{ opacity: 0, scale: 0.97 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.2 }}
+                      exit={{ opacity: 0, scale: 0.97 }}
+                      transition={{ duration: 0.15 }}
                       key={item.id}
-                      className="bg-white p-6 rounded-2xl border border-mango/15 hover:border-mango/40 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
+                      className="bg-white p-5 rounded-xl border border-stone-200/80 hover:border-stone-300 shadow-xs transition-shadow flex flex-col justify-between group"
                     >
                       <div>
                         <div className="flex items-start justify-between gap-3">
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-2.5">
                             {/* Veg / Non-Veg Indicator Dot */}
                             <span 
                               className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${
@@ -575,28 +558,28 @@ export default function App() {
                               }`} />
                             </span>
                             
-                            <h3 className="font-serif font-bold text-lg text-espresso group-hover:text-mango-dark transition-colors">
+                            <h3 className="font-serif font-bold text-base text-espresso group-hover:text-amber-800 transition-colors">
                               {item.name}
                             </h3>
                           </div>
 
-                          <span className="font-mono font-bold text-lg text-espresso shrink-0">
+                          <span className="font-mono tabular-nums font-bold text-base text-espresso shrink-0">
                             ₹{item.price}
                           </span>
                         </div>
 
-                        <p className="text-xs sm:text-sm text-espresso/70 mt-2 leading-relaxed">
+                        <p className="text-xs text-espresso/70 mt-2 leading-relaxed">
                           {item.description}
                         </p>
                       </div>
 
-                      <div className="mt-4 pt-3 border-t border-espresso/5 flex items-center justify-between">
+                      <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-xs">
                         {item.isBestseller ? (
-                          <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md bg-mango/15 text-mango-dark">
-                            ⭐ Popular
+                          <span className="text-[11px] font-semibold text-amber-700">
+                            Chef's Bestseller
                           </span>
                         ) : (
-                          <span className="text-[10px] text-espresso/40 uppercase font-mono">
+                          <span className="text-[11px] text-stone-400 font-mono">
                             Am Kitchen Special
                           </span>
                         )}
@@ -605,7 +588,7 @@ export default function App() {
                           href={`https://wa.me/917978901811?text=Hi%20Am%20Kitchen%2C%20I%20would%20like%20to%20order%20the%20${encodeURIComponent(item.name)}!`}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-xs font-semibold text-mango-dark hover:text-espresso flex items-center space-x-1 transition-colors"
+                          className="font-medium text-amber-800 hover:text-espresso flex items-center space-x-1 transition-colors"
                         >
                           <span>Order on WhatsApp</span>
                           <ArrowRight className="w-3 h-3" />
@@ -617,9 +600,9 @@ export default function App() {
             </motion.div>
 
             {/* Note about Sample Content */}
-            <div className="mt-12 text-center">
+            <div className="mt-10 text-center">
               <p className="text-xs text-espresso/60 max-w-lg mx-auto">
-                * Prices and seasonal dish availability may vary. Call our team directly at <a href={`tel:${businessDetails.phone}`} className="font-bold underline text-espresso">{businessDetails.phone}</a> for daily specials and party orders.
+                * Prices and seasonal dish availability may vary. Call directly at <a href={`tel:${businessDetails.phone}`} className="font-bold underline text-espresso">{businessDetails.phone}</a> for daily specials and party orders.
               </p>
             </div>
 
@@ -627,14 +610,14 @@ export default function App() {
         </section>
 
         {/* ========================================================================= */}
-        {/* 5. WHY CHOOSE US (4 Cards)                                                */}
+        {/* 5. WHY CHOOSE US (4 Refined Pillars)                                      */}
         {/* ========================================================================= */}
         <section id="why-us" className="py-20 sm:py-28 bg-cream relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div className="text-center space-y-3 mb-16">
               <span className="text-xs font-bold uppercase tracking-widest text-mango-dark inline-flex items-center space-x-1.5">
-                <span className="w-2 h-2 rounded-full bg-mango inline-block" />
+                <span className="w-1.5 h-1.5 rounded-full bg-mango-dark inline-block" />
                 <span>The Am Kitchen Promise</span>
               </span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-black text-espresso tracking-tight">
@@ -649,19 +632,19 @@ export default function App() {
               {whyChooseUs.map((feature) => (
                 <div
                   key={feature.id}
-                  className="bg-white p-7 rounded-3xl border border-mango/15 hover:border-mango/40 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1"
+                  className="bg-white p-6 rounded-xl border border-stone-200/80 hover:border-stone-300 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group"
                 >
-                  <div className="space-y-4">
-                    <div className="w-14 h-14 rounded-2xl bg-cream-soft flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className="space-y-3">
+                    <div className="w-11 h-11 rounded-lg bg-stone-100 flex items-center justify-center text-espresso group-hover:scale-105 transition-transform">
                       {renderFeatureIcon(feature.icon)}
                     </div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-leaf font-bold block">
+                    <span className="text-[11px] font-semibold text-leaf block">
                       {feature.highlight}
                     </span>
-                    <h3 className="font-serif font-bold text-xl text-espresso">
+                    <h3 className="font-serif font-bold text-lg text-espresso">
                       {feature.title}
                     </h3>
-                    <p className="text-sm text-espresso/75 leading-relaxed font-normal">
+                    <p className="text-xs sm:text-sm text-espresso/70 leading-relaxed font-normal">
                       {feature.description}
                     </p>
                   </div>
@@ -1021,32 +1004,34 @@ export default function App() {
         </AnimatePresence>
 
         {/* ========================================================================= */}
-        {/* 7. REVIEWS SECTION (Highlight 4.6 Stars, 78 Reviews)                      */}
+        {/* 7. REVIEWS SECTION (Unboxed Social Proof & Real Testimonials)             */}
         {/* ========================================================================= */}
         <section id="reviews" className="py-20 sm:py-28 bg-cream relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <div className="text-center space-y-4 mb-14">
+            <div className="text-center space-y-3 mb-14">
               <span className="text-xs font-bold uppercase tracking-widest text-mango-dark inline-flex items-center space-x-1.5">
-                <span className="w-2 h-2 rounded-full bg-mango inline-block" />
+                <span className="w-1.5 h-1.5 rounded-full bg-mango-dark inline-block" />
                 <span>Guest Experiences</span>
               </span>
-
-              {/* Highlight Badge */}
-              <div className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-full bg-cream-soft border border-mango/30 shadow-sm">
-                <div className="flex items-center text-mango space-x-0.5">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <Star key={s} className="w-4 h-4 fill-mango text-mango" />
-                  ))}
-                </div>
-                <span className="font-bold text-espresso text-sm sm:text-base">
-                  {businessDetails.rating} ★ on Google ({businessDetails.reviewsCount} reviews)
-                </span>
-              </div>
 
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-black text-espresso tracking-tight">
                 What Diners Are Saying
               </h2>
+
+              {/* Unboxed Social Proof Metric (Zero-Pill Discipline) */}
+              <div className="flex items-center justify-center gap-2 text-sm text-espresso/80 pt-1 font-medium">
+                <div className="flex items-center text-mango space-x-0.5">
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <Star key={s} className="w-3.5 h-3.5 fill-mango text-mango" />
+                  ))}
+                </div>
+                <span className="font-bold text-espresso">{businessDetails.rating} / 5.0</span>
+                <span aria-hidden="true" className="text-stone-300">·</span>
+                <span>{businessDetails.reviewsCount} Google Reviews</span>
+                <span aria-hidden="true" className="text-stone-300">·</span>
+                <span>Verified Diners</span>
+              </div>
             </div>
 
             {/* 3 Sample Review Cards */}
@@ -1054,32 +1039,32 @@ export default function App() {
               {sampleReviews.map((review) => (
                 <div
                   key={review.id}
-                  className="bg-white p-7 rounded-3xl border border-mango/15 hover:border-mango/40 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                  className="bg-white p-6 rounded-xl border border-stone-200/80 hover:border-stone-300 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between"
                 >
-                  <div className="space-y-4">
+                  <div className="space-y-3.5">
                     <div className="flex items-center space-x-1 text-mango">
                       {[1, 2, 3, 4, 5].map((st) => (
                         <Star
                           key={st}
-                          className={`w-4 h-4 ${st <= review.rating ? "fill-mango text-mango" : "text-gray-300"}`}
+                          className={`w-3.5 h-3.5 ${st <= review.rating ? "fill-mango text-mango" : "text-stone-200"}`}
                         />
                       ))}
                     </div>
-                    <p className="text-sm text-espresso/80 leading-relaxed font-normal italic">
+                    <p className="text-xs sm:text-sm text-espresso/80 leading-relaxed font-normal italic">
                       "{review.comment}"
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-espresso/5 flex items-center justify-between">
+                  <div className="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between text-xs">
                     <div>
                       <h4 className="font-serif font-bold text-sm text-espresso">
                         {review.name}
                       </h4>
-                      <p className="text-[11px] text-espresso/50 font-mono mt-0.5">
+                      <p className="text-[11px] text-stone-400 font-mono mt-0.5">
                         {review.date}
                       </p>
                     </div>
-                    <span className="text-[10px] uppercase font-bold text-leaf bg-leaf/10 px-2 py-0.5 rounded">
+                    <span className="text-xs text-stone-500 font-medium">
                       Google Review
                     </span>
                   </div>
@@ -1087,16 +1072,16 @@ export default function App() {
               ))}
             </div>
 
-            {/* Action button: Read our reviews on Google */}
+            {/* Action link */}
             <div className="mt-12 text-center">
               <a
                 href={businessDetails.googleMapsLink}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center space-x-2.5 px-7 py-3.5 rounded-full bg-espresso hover:bg-espresso-light text-white font-bold text-sm shadow-md transition-all hover:scale-105"
+                className="inline-flex items-center space-x-2 px-6 py-3 rounded-lg bg-espresso hover:bg-espresso-light text-white font-semibold text-xs sm:text-sm shadow-xs transition-colors"
               >
-                <span>Read our reviews on Google</span>
-                <ExternalLink className="w-4 h-4 text-mango" />
+                <span>Read all reviews on Google</span>
+                <ExternalLink className="w-3.5 h-3.5 text-mango" />
               </a>
             </div>
 
@@ -1106,16 +1091,16 @@ export default function App() {
         {/* ========================================================================= */}
         {/* 8. CONTACT AND LOCATION SECTION                                           */}
         {/* ========================================================================= */}
-        <section id="contact" className="py-20 sm:py-28 bg-cream-soft/40 relative border-t border-mango/15">
+        <section id="contact" className="py-20 sm:py-28 bg-cream-soft/40 relative border-t border-stone-200/70">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
               
               {/* Left Column: Contact Details, Hours & Form */}
-              <div className="lg:col-span-6 space-y-8">
+              <div className="lg:col-span-6 space-y-7">
                 <div className="space-y-2">
                   <span className="text-xs font-bold uppercase tracking-widest text-mango-dark inline-flex items-center space-x-1.5">
-                    <span className="w-2 h-2 rounded-full bg-mango inline-block" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-mango-dark inline-block" />
                     <span>Get in Touch</span>
                   </span>
                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-black text-espresso tracking-tight">
@@ -1127,47 +1112,47 @@ export default function App() {
                 </div>
 
                 {/* Details Cards */}
-                <div className="space-y-4">
-                  <div className="bg-white p-5 rounded-2xl border border-mango/15 flex items-start space-x-3.5 shadow-sm">
-                    <div className="w-10 h-10 rounded-xl bg-mango/15 text-mango-dark flex items-center justify-center shrink-0 mt-0.5">
-                      <MapPin className="w-5 h-5" />
+                <div className="space-y-3.5">
+                  <div className="bg-white p-5 rounded-xl border border-stone-200/80 flex items-start space-x-3.5 shadow-xs">
+                    <div className="w-9 h-9 rounded-lg bg-stone-100 text-espresso flex items-center justify-center shrink-0 mt-0.5">
+                      <MapPin className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="font-serif font-bold text-base text-espresso">Address</h4>
-                      <p className="text-xs sm:text-sm text-espresso/80 mt-1 leading-relaxed">
+                      <h4 className="font-serif font-bold text-sm sm:text-base text-espresso">Address</h4>
+                      <p className="text-xs sm:text-sm text-espresso/80 mt-0.5 leading-relaxed">
                         {businessDetails.address}
                       </p>
                     </div>
                   </div>
 
-                  <div className="bg-white p-5 rounded-2xl border border-mango/15 flex items-start space-x-3.5 shadow-sm">
-                    <div className="w-10 h-10 rounded-xl bg-mango/15 text-mango-dark flex items-center justify-center shrink-0 mt-0.5">
-                      <Phone className="w-5 h-5" />
+                  <div className="bg-white p-5 rounded-xl border border-stone-200/80 flex items-start space-x-3.5 shadow-xs">
+                    <div className="w-9 h-9 rounded-lg bg-stone-100 text-espresso flex items-center justify-center shrink-0 mt-0.5">
+                      <Phone className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="font-serif font-bold text-base text-espresso">Phone (Click to call)</h4>
+                      <h4 className="font-serif font-bold text-sm sm:text-base text-espresso">Phone</h4>
                       <a
                         href={`tel:${businessDetails.phone}`}
-                        className="text-base font-bold text-mango-dark hover:underline block mt-1"
+                        className="text-sm sm:text-base font-bold text-amber-800 hover:underline block mt-0.5"
                       >
                         {businessDetails.phone}
                       </a>
-                      <p className="text-xs text-espresso/60 mt-0.5">Available during business hours</p>
+                      <p className="text-[11px] text-stone-500 mt-0.5">Direct line for bookings and orders</p>
                     </div>
                   </div>
 
                   {/* Business Hours Block */}
-                  <div className="bg-white p-5 rounded-2xl border border-mango/15 flex items-start space-x-3.5 shadow-sm">
-                    <div className="w-10 h-10 rounded-xl bg-leaf/10 text-leaf flex items-center justify-center shrink-0 mt-0.5">
-                      <Clock className="w-5 h-5" />
+                  <div className="bg-white p-5 rounded-xl border border-stone-200/80 flex items-start space-x-3.5 shadow-xs">
+                    <div className="w-9 h-9 rounded-lg bg-stone-100 text-leaf flex items-center justify-center shrink-0 mt-0.5">
+                      <Clock className="w-4 h-4" />
                     </div>
                     <div className="w-full">
-                      <h4 className="font-serif font-bold text-base text-espresso">Business Hours</h4>
+                      <h4 className="font-serif font-bold text-sm sm:text-base text-espresso">Business Hours</h4>
                       <div className="mt-2 space-y-1 text-xs sm:text-sm text-espresso/80">
                         {businessDetails.hours.map((h, i) => (
-                          <div key={i} className="flex justify-between items-center py-0.5 border-b border-espresso/5 last:border-none">
-                            <span className="font-medium">{h.days}</span>
-                            <span className="font-mono font-bold text-espresso">{h.timing}</span>
+                          <div key={i} className="flex justify-between items-center py-1 border-b border-stone-100 last:border-none">
+                            <span className="font-medium text-espresso/90">{h.days}</span>
+                            <span className="font-mono tabular-nums font-bold text-espresso">{h.timing}</span>
                           </div>
                         ))}
                       </div>
@@ -1176,9 +1161,9 @@ export default function App() {
                 </div>
 
                 {/* Simple Contact Form */}
-                <div className="bg-white p-6 sm:p-8 rounded-3xl border border-mango/20 shadow-md">
-                  <h3 className="font-serif font-bold text-xl text-espresso mb-1">
-                    Send a Message
+                <div className="bg-white p-6 sm:p-7 rounded-2xl border border-stone-200/80 shadow-xs">
+                  <h3 className="font-serif font-bold text-lg text-espresso mb-1">
+                    Send a Direct Message
                   </h3>
                   <p className="text-xs text-espresso/70 mb-5">
                     We will get back to you promptly over phone or WhatsApp.
@@ -1186,10 +1171,10 @@ export default function App() {
 
                   {formSubmitted ? (
                     <div className="text-center py-6 space-y-3">
-                      <div className="w-12 h-12 bg-leaf/15 text-leaf rounded-full flex items-center justify-center mx-auto">
-                        <CheckCircle2 className="w-6 h-6" />
+                      <div className="w-10 h-10 bg-leaf/10 text-leaf rounded-full flex items-center justify-center mx-auto">
+                        <CheckCircle2 className="w-5 h-5" />
                       </div>
-                      <h4 className="font-serif font-bold text-lg text-espresso">
+                      <h4 className="font-serif font-bold text-base text-espresso">
                         Thank You, {contactForm.name}!
                       </h4>
                       <p className="text-xs text-espresso/75 max-w-sm mx-auto">
@@ -1200,15 +1185,15 @@ export default function App() {
                           setFormSubmitted(false);
                           setContactForm({ name: "", phone: "", message: "" });
                         }}
-                        className="text-xs font-bold text-mango-dark underline pt-2 cursor-pointer"
+                        className="text-xs font-bold text-amber-800 underline pt-2 cursor-pointer"
                       >
                         Send another message
                       </button>
                     </div>
                   ) : (
-                    <form onSubmit={handleFormSubmit} className="space-y-4">
+                    <form onSubmit={handleFormSubmit} className="space-y-3.5">
                       <div>
-                        <label htmlFor="contact-name" className="text-xs font-bold text-espresso block mb-1">
+                        <label htmlFor="contact-name" className="text-xs font-semibold text-espresso block mb-1">
                           Your Name
                         </label>
                         <input
@@ -1217,13 +1202,13 @@ export default function App() {
                           required
                           value={contactForm.name}
                           onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                          placeholder="e.g. Subhashree Mohapatra"
-                          className="w-full px-4 py-3 rounded-xl border border-mango/20 focus:border-mango focus:ring-1 focus:ring-mango outline-none text-sm bg-cream/30 text-espresso transition-colors"
+                          placeholder="Subhashree Mohapatra"
+                          className="w-full px-3.5 py-2.5 rounded-lg border border-stone-200 focus:border-espresso focus:ring-1 focus:ring-espresso outline-none text-xs sm:text-sm bg-white text-espresso transition-colors"
                         />
                       </div>
 
                       <div>
-                        <label htmlFor="contact-phone" className="text-xs font-bold text-espresso block mb-1">
+                        <label htmlFor="contact-phone" className="text-xs font-semibold text-espresso block mb-1">
                           Phone Number
                         </label>
                         <input
@@ -1233,12 +1218,12 @@ export default function App() {
                           value={contactForm.phone}
                           onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
                           placeholder="07978901811"
-                          className="w-full px-4 py-3 rounded-xl border border-mango/20 focus:border-mango focus:ring-1 focus:ring-mango outline-none text-sm bg-cream/30 text-espresso transition-colors"
+                          className="w-full px-3.5 py-2.5 rounded-lg border border-stone-200 focus:border-espresso focus:ring-1 focus:ring-espresso outline-none text-xs sm:text-sm bg-white text-espresso transition-colors"
                         />
                       </div>
 
                       <div>
-                        <label htmlFor="contact-message" className="text-xs font-bold text-espresso block mb-1">
+                        <label htmlFor="contact-message" className="text-xs font-semibold text-espresso block mb-1">
                           Your Message or Inquiry
                         </label>
                         <textarea
@@ -1246,22 +1231,22 @@ export default function App() {
                           rows={3}
                           value={contactForm.message}
                           onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                          placeholder="I would like to inquire about group dining / take-away orders."
-                          className="w-full px-4 py-3 rounded-xl border border-mango/20 focus:border-mango focus:ring-1 focus:ring-mango outline-none text-sm bg-cream/30 text-espresso transition-colors resize-none"
+                          placeholder="I would like to inquire about group dining or takeaway orders."
+                          className="w-full px-3.5 py-2.5 rounded-lg border border-stone-200 focus:border-espresso focus:ring-1 focus:ring-espresso outline-none text-xs sm:text-sm bg-white text-espresso transition-colors resize-none"
                         />
                       </div>
 
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full py-3.5 px-6 rounded-xl bg-mango hover:bg-mango-light text-espresso font-bold text-sm shadow-md transition-all hover:scale-[1.01] active:scale-95 flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
+                        className="w-full py-3 px-5 rounded-lg bg-mango hover:bg-mango-light text-espresso font-bold text-xs sm:text-sm shadow-xs transition-colors flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
                       >
                         {isSubmitting ? (
                           <span>Sending message...</span>
                         ) : (
                           <>
                             <span>Send Message</span>
-                            <Send className="w-4 h-4" />
+                            <Send className="w-3.5 h-3.5" />
                           </>
                         )}
                       </button>
@@ -1272,20 +1257,18 @@ export default function App() {
 
               {/* Right Column: Google Maps Embed & Directions Button */}
               <div className="lg:col-span-6 space-y-6">
-                <div className="bg-white p-6 sm:p-8 rounded-3xl border border-mango/20 shadow-xl space-y-5">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-serif font-bold text-xl text-espresso">
-                        Find Us in Old Town
-                      </h3>
-                      <p className="text-xs text-espresso/70 mt-0.5">
-                        Lingaraj Nagar, Bhubaneswar (Coordinates: {businessDetails.coordinates.lat}, {businessDetails.coordinates.lng})
-                      </p>
-                    </div>
+                <div className="bg-white p-6 sm:p-7 rounded-2xl border border-stone-200/80 shadow-xs space-y-4">
+                  <div>
+                    <h3 className="font-serif font-bold text-lg text-espresso">
+                      Find Us in Old Town
+                    </h3>
+                    <p className="text-xs text-espresso/70 mt-0.5">
+                      Lingaraj Nagar, Bhubaneswar (Coordinates: {businessDetails.coordinates.lat}, {businessDetails.coordinates.lng})
+                    </p>
                   </div>
 
-                  {/* Responsive Map Embed */}
-                  <div className="relative rounded-2xl h-80 sm:h-96 w-full overflow-hidden shadow-inner border border-espresso/10">
+                  {/* Responsive Map Embed with Clean Border */}
+                  <div className="relative rounded-xl h-80 sm:h-96 w-full overflow-hidden border border-stone-200">
                     <iframe
                       title="Am Kitchen Location Map"
                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.470264849198!2d85.82990757500893!3d20.23932248121972!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19a70016cea789%3A0xd4f68b6e26573c42!2sAm%20kitchen!5e0!3m2!1sen!2sin!4v1790926980184!5m2!1sen!2sin"
@@ -1303,9 +1286,9 @@ export default function App() {
                     href={businessDetails.googleMapsLink}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-full inline-flex items-center justify-center space-x-2.5 px-6 py-4 rounded-xl bg-mango hover:bg-mango-light text-espresso font-bold text-base shadow-md transition-all hover:scale-[1.02] cursor-pointer"
+                    className="w-full inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-lg bg-espresso hover:bg-espresso-light text-white font-semibold text-xs sm:text-sm shadow-xs transition-colors cursor-pointer"
                   >
-                    <Navigation className="w-5 h-5 text-espresso" />
+                    <Navigation className="w-4 h-4 text-mango" />
                     <span>Get Directions on Google Maps</span>
                   </a>
                 </div>
@@ -1319,23 +1302,18 @@ export default function App() {
       </main>
 
       {/* ========================================================================= */}
-      {/* 9. FOOTER                                                                 */}
+      {/* 9. FOOTER (Quiet, Comprehensive & Professional)                           */}
       {/* ========================================================================= */}
-      <footer className="bg-espresso text-cream/90 py-14 border-t border-mango/20">
+      <footer className="bg-espresso text-cream/90 py-14 border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             
             {/* Col 1: Brand & Tagline */}
             <div className="space-y-3 md:col-span-1">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 rounded-lg bg-mango flex items-center justify-center text-espresso">
-                  <Utensils className="w-4 h-4 text-espresso" />
-                </div>
-                <h3 className="font-serif font-black text-xl text-white">
-                  Am Kitchen
-                </h3>
-              </div>
+              <span className="font-serif font-black text-2xl text-white block">
+                Am Kitchen
+              </span>
               <p className="text-xs text-cream/70 leading-relaxed font-normal">
                 Fresh. Flavorful. Made with Love. Your trusted neighborhood restaurant in Lingaraj Nagar, Old Town, Bhubaneswar.
               </p>
@@ -1344,13 +1322,14 @@ export default function App() {
             {/* Col 2: Quick Links */}
             <div className="space-y-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-mango">
-                Quick Navigation
+                Navigation
               </h4>
-              <ul className="space-y-2 text-xs text-cream/80">
+              <ul className="space-y-2 text-xs text-cream/70">
                 {[
                   { id: "home", label: "Home" },
                   { id: "about", label: "About Us" },
                   { id: "menu", label: "Menu Offerings" },
+                  { id: "why-us", label: "Why Choose Us" },
                   { id: "gallery", label: "Photo Gallery" },
                   { id: "reviews", label: "Guest Reviews" },
                   { id: "contact", label: "Location & Directions" }
@@ -1358,7 +1337,7 @@ export default function App() {
                   <li key={item.id}>
                     <button
                       onClick={() => scrollTo(item.id)}
-                      className="hover:text-mango transition-colors cursor-pointer"
+                      className="hover:text-white transition-colors cursor-pointer"
                     >
                       {item.label}
                     </button>
@@ -1368,13 +1347,13 @@ export default function App() {
             </div>
 
             {/* Col 3: Hours */}
-            <div className="space-y-3 text-xs text-cream/80">
+            <div className="space-y-3 text-xs text-cream/70">
               <h4 className="text-xs font-bold uppercase tracking-wider text-mango">
                 Opening Hours
               </h4>
               <p className="leading-relaxed">
-                <strong>Every Day:</strong><br />
-                11:00 AM – 11:00 PM
+                <span className="font-semibold text-white">Monday – Sunday</span><br />
+                <span className="font-mono tabular-nums">11:00 AM – 11:00 PM</span>
               </p>
               <p className="text-[11px] text-mango-light">
                 Dine-in, Takeaway & Delivery
@@ -1382,7 +1361,7 @@ export default function App() {
             </div>
 
             {/* Col 4: Location & Phone */}
-            <div className="space-y-3 text-xs text-cream/80">
+            <div className="space-y-3 text-xs text-cream/70">
               <h4 className="text-xs font-bold uppercase tracking-wider text-mango">
                 Contact & Address
               </h4>
@@ -1392,7 +1371,7 @@ export default function App() {
               <p>
                 <a
                   href={`tel:${businessDetails.phone}`}
-                  className="font-bold text-white hover:text-mango text-sm block transition-colors"
+                  className="font-semibold text-white hover:text-mango text-xs sm:text-sm block transition-colors"
                 >
                   Call: {businessDetails.phone}
                 </a>
@@ -1401,26 +1380,26 @@ export default function App() {
 
           </div>
 
-          {/* Copyright */}
-          <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-cream/60 gap-3">
+          {/* Copyright & Secondary Links */}
+          <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-cream/50 gap-3">
             <p>© 2026 Am Kitchen. All rights reserved.</p>
             <div className="flex space-x-4">
               <a
                 href={businessDetails.googleMapsLink}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-mango transition-colors"
+                className="hover:text-white transition-colors"
               >
                 Google Maps Listing
               </a>
-              <span>·</span>
+              <span aria-hidden="true">·</span>
               <a
                 href={businessDetails.whatsappLink}
                 target="_blank"
                 rel="noreferrer"
-                className="hover:text-mango transition-colors"
+                className="hover:text-white transition-colors"
               >
-                WhatsApp Us
+                WhatsApp Chat
               </a>
             </div>
           </div>
@@ -1428,39 +1407,43 @@ export default function App() {
         </div>
       </footer>
 
-      {/* ========================================================================= */}
-      {/* FLOATING ACTION BUTTONS (WHATSAPP & MOBILE BOTTOM BAR)                     */}
-      {/* ========================================================================= */}
-
-      {/* Floating WhatsApp Button */}
+      {/* Floating WhatsApp Action Button */}
       <a
         href={businessDetails.whatsappLink}
         target="_blank"
         rel="noreferrer"
         title="Chat with Am Kitchen on WhatsApp"
-        className="fixed bottom-20 sm:bottom-8 right-5 z-40 p-3.5 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all flex items-center justify-center"
+        className="fixed bottom-16 sm:bottom-6 right-5 z-40 p-3 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center"
         aria-label="WhatsApp Chat"
       >
-        <MessageCircle className="w-7 h-7 fill-white" />
+        <MessageCircle className="w-6 h-6 fill-white" />
       </a>
 
-      {/* Mobile-Only Bottom Fixed "Call Now" Bar */}
-      <div className="sm:hidden fixed bottom-0 left-0 w-full bg-espresso/98 backdrop-blur-md border-t border-mango/25 p-3 z-40 flex items-center justify-between shadow-2xl">
-        <div className="text-cream pl-1">
-          <p className="text-[10px] uppercase font-bold text-mango tracking-wider leading-none">
-            Call Am Kitchen
+      {/* Mobile-Only Bottom Fixed Bar (Adhering to 15% Mobile Sticky Cap) */}
+      <div className="sm:hidden fixed bottom-0 left-0 w-full h-14 bg-espresso/98 backdrop-blur-md border-t border-white/10 px-4 z-40 flex items-center justify-between shadow-xl">
+        <div className="text-cream leading-tight">
+          <p className="text-[10px] uppercase font-bold text-mango tracking-wider">
+            Am Kitchen
           </p>
-          <p className="text-xs font-mono font-bold mt-1 text-white">
+          <p className="text-xs font-mono font-bold text-white">
             {businessDetails.phone}
           </p>
         </div>
-        <a
-          href={`tel:${businessDetails.phone}`}
-          className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-full bg-mango text-espresso font-bold text-xs uppercase tracking-wider shadow-lg active:scale-95 transition-transform"
-        >
-          <Phone className="w-3.5 h-3.5 fill-espresso" />
-          <span>Call Now</span>
-        </a>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => setIsBookingModalOpen(true)}
+            className="px-3.5 py-1.5 rounded-lg bg-white/10 text-white font-medium text-xs shadow-xs cursor-pointer"
+          >
+            Book Table
+          </button>
+          <a
+            href={`tel:${businessDetails.phone}`}
+            className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-mango text-espresso font-bold text-xs shadow-xs active:scale-95 transition-transform"
+          >
+            <Phone className="w-3 h-3 fill-espresso" />
+            <span>Call</span>
+          </a>
+        </div>
       </div>
 
     </div>

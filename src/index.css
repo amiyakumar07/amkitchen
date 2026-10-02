@@ -1,35 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   body {
-    font-family: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
-    color: #2B1D14;
-    background-color: #FFF8EC;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    color: #1A1412;
+    background-color: #FAF7F2;
   }
   h1, h2, h3, h4, .font-serif {
     font-family: 'Playfair Display', Georgia, serif;
+    letter-spacing: -0.015em;
   }
 }
 
 @theme {
   --font-serif: "Playfair Display", Georgia, serif;
-  --font-sans: "Poppins", "Inter", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   
-  --color-mango: #F4A300;
-  --color-mango-dark: #D98E00;
-  --color-mango-light: #FFB72B;
-  --color-espresso: #2B1D14;
-  --color-espresso-light: #3D2B1F;
-  --color-cream: #FFF8EC;
+  --color-mango: #E28C10;
+  --color-mango-dark: #C67606;
+  --color-mango-light: #F5A623;
+  --color-espresso: #1A1412;
+  --color-espresso-light: #2A201B;
+  --color-cream: #FAF7F2;
   --color-cream-card: #FFFFFF;
-  --color-cream-soft: #FDF1DD;
-  --color-leaf: #2E7D32;
-  --color-leaf-light: #388E3C;
+  --color-cream-soft: #F4EFEA;
+  --color-leaf: #2A723D;
+  --color-leaf-light: #348E4C;
 }
 
 /* Custom scrollbar hiding utility */
