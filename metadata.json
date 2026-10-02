@@ -1,6 +1,6 @@
 {
-  "name": "NH16 Farm Stay And Restaurant",
-  "description": "Premium responsive landing website for NH16 Farm Stay And Restaurant, featuring custom digital menus, farm stay cottages, and automated reservation requests.",
+  "name": "Am Kitchen Restaurant",
+  "description": "Warm and inviting neighborhood restaurant website for Am Kitchen in Lingaraj Nagar, Old Town, Bhubaneswar, featuring interactive digital menu, 3D flip card showcase, table reservation, and photo gallery.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
