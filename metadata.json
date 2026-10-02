@@ -1,0 +1,6 @@
+{
+  "name": "NH16 Farm Stay And Restaurant",
+  "description": "Premium responsive landing website for NH16 Farm Stay And Restaurant, featuring custom digital menus, farm stay cottages, and automated reservation requests.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

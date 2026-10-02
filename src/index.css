@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
+    color: #2B1D14;
+    background-color: #FFF8EC;
+  }
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Poppins", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --color-mango: #F4A300;
+  --color-mango-dark: #D98E00;
+  --color-mango-light: #FFB72B;
+  --color-espresso: #2B1D14;
+  --color-espresso-light: #3D2B1F;
+  --color-cream: #FFF8EC;
+  --color-cream-card: #FFFFFF;
+  --color-cream-soft: #FDF1DD;
+  --color-leaf: #2E7D32;
+  --color-leaf-light: #388E3C;
+}
+
+/* Custom scrollbar hiding utility */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
