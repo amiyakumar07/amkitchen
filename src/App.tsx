@@ -36,6 +36,7 @@ import {
   GalleryImage
 } from "./data";
 import nightEntranceImg from "./assets/images/am_kitchen_night_1790931337063.jpg";
+import heroFacadeImg from "./assets/images/am_kitchen_facade.jpg";
 
 export default function App() {
   // Navigation & Scroll State
@@ -324,15 +325,19 @@ export default function App() {
           className="relative min-h-[620px] h-[92vh] flex items-center justify-center overflow-hidden bg-espresso text-white"
         >
           {/* Full-width storefront background image with parallax & dark overlay */}
-          <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 z-0 overflow-hidden">
             <motion.img
               style={{ y: scrollY * 0.2 }}
-              src="/am_kitchen_facade.jpg"
+              src={heroFacadeImg}
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src = "/am_kitchen_facade.jpg";
+              }}
               alt="Am Kitchen Restaurant Storefront in Old Town Bhubaneswar"
-              className="w-full h-full object-cover object-center opacity-75 scale-105 pointer-events-none"
+              loading="eager"
+              className="w-full h-full object-cover object-center scale-105 pointer-events-none transition-transform duration-700"
             />
-            {/* Rich gradient overlay with espresso tones keeping text readable while displaying facade */}
-            <div className="absolute inset-0 bg-gradient-to-t from-espresso via-espresso/65 to-espresso/45" />
+            {/* Balanced gradient overlay keeping facade visible and clear while ensuring text contrast */}
+            <div className="absolute inset-0 bg-gradient-to-t from-espresso via-espresso/50 to-espresso/35 pointer-events-none" />
           </div>
 
           <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-16">
