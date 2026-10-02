@@ -1620,7 +1620,7 @@ export default function App() {
 
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
             <p>© {new Date().getFullYear()} Am Kitchen, Lingaraj Nagar, Bhubaneswar. All rights reserved.</p>
-            <p>Designed with ❤️ matching the NH-16 Design Experience</p>
+            <p>Designed with ❤️ From am Kitchen</p>
           </div>
         </div>
       </footer>
