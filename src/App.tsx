@@ -35,6 +35,7 @@ import {
   MenuItem,
   GalleryImage
 } from "./data";
+import nightEntranceImg from "./assets/images/am_kitchen_night_1790931337063.jpg";
 
 export default function App() {
   // Navigation & Scroll State
@@ -479,9 +480,11 @@ export default function App() {
                 <div className="absolute inset-0 bg-mango rounded-3xl rotate-2 group-hover:rotate-1 transition-transform duration-300 pointer-events-none opacity-40" />
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-espresso">
                   <img
-                    src="/src/assets/images/am_kitchen_night_1790931337063.jpg"
+                    src={nightEntranceImg}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = "/am_kitchen_night.jpg";
+                    }}
                     alt="Am Kitchen Restaurant illuminated night entrance and welcoming dining hall in Old Town Bhubaneswar"
-                    referrerPolicy="no-referrer"
                     className="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-espresso via-espresso/70 to-transparent text-white">
